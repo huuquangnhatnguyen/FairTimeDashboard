@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FairTime Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="header-text">What FairTime looks like at a glance</div>
+
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <h1 class="dashboard-title">FairTime Dashboard <span class="header-divider">—</span> Week of Mar 01, 2026
+            </h1>
+            <div class="legend" id="header-legend">
+                <!-- Dynamically generated -->
+            </div>
+        </header>
+
+        <!-- Main Content Grid -->
+        <div class="dashboard-content">
+
+            <!-- Column 1: Weekly Schedule -->
+            <section class="panel weekly-schedule">
+                <div class="section-header">
+                    <h2 class="section-title">WEEKLY SCHEDULE</h2>
+                    <button id="add-slot-btn" class="header-action-btn">+ Add Slot</button>
+                </div>
+
+                <div class="schedule-grid" id="schedule-grid">
+                    <!-- Dynamically generated -->
+                </div>
+            </section>
+
+            <!-- Column 2: Hours Used vs. Remaining & Weekly Summary -->
+            <div class="middle-column">
+
+                <section class="panel hours-panel">
+                    <h2 class="section-title">HOURS USED vs. REMAINING</h2>
+
+                    <div id="stats-bars-container">
+                        <!-- Dynamically generated -->
+                    </div>
+
+                    <div class="axis-labels">
+                        <span style="left: 0%;">0h</span>
+                        <span style="left: 33.33%;">4h</span>
+                        <span style="left: 66.67%;">8h</span>
+                        <span style="left: 100%;">12h</span>
+                    </div>
+                </section>
+
+                <section class="panel summary-panel">
+                    <h2 class="section-title">WEEKLY SUMMARY</h2>
+                    <div class="summary-rows" id="summary-rows-container">
+                        <!-- Dynamically generated -->
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- Column 3: Balance Score -->
+            <section class="panel balance-score-panel">
+                <h2 class="section-title">BALANCE SCORE</h2>
+
+                <div class="gauge-container">
+                    <svg class="gauge-svg" viewBox="0 0 120 120">
+                        <circle class="gauge-outer" cx="60" cy="60" r="58" />
+                        <circle class="gauge-bg" cx="60" cy="60" r="46" />
+                        <!-- 75% of 289 is 216.75, offset is 72.25. Let's rotate so it starts at bottom left -->
+                        <circle class="gauge-fill" cx="60" cy="60" r="46" stroke-dasharray="289" stroke-dashoffset="289"
+                            data-offset="72.25" transform="rotate(135 60 60)" />
+                    </svg>
+                    <div class="gauge-text">
+                        <div class="score-value">75</div>
+                        <div class="score-max">/100</div>
+                    </div>
+                </div>
+
+                <div class="status-button">GOOD BALANCE</div>
+
+                <div class="score-legend">
+                    <div class="score-legend-item">
+                        <span class="legend-box color-perfect"></span> 90&ndash;100 Perfect
+                    </div>
+                    <div class="score-legend-item">
+                        <span class="legend-box color-good"></span> 70&ndash;89 Good
+                    </div>
+                    <div class="score-legend-item">
+                        <span class="legend-box color-fair"></span> 50&ndash;69 Fair
+                    </div>
+                    <div class="score-legend-item">
+                        <span class="legend-box color-rebalance"></span> &lt; 50 Rebalance
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" id="slot-modal">
+        <div class="modal-content">
+            <h3 class="modal-title" id="modal-title">Add Reservation</h3>
+            <form id="slot-form">
+                <input type="hidden" id="slot-id">
+                <div class="form-group">
+                    <label>User</label>
+                    <div class="toggle-group" id="modal-user-toggles">
+                        <!-- Dynamically generated -->
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="slot-day">Day</label>
+                    <select id="slot-day" required>
+                        <option value="Mon">Monday</option>
+                        <option value="Tue">Tuesday</option>
+                        <option value="Wed">Wednesday</option>
+                        <option value="Thu">Thursday</option>
+                        <option value="Fri">Friday</option>
+                        <option value="Sat">Saturday</option>
+                        <option value="Sun">Sunday</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="slot-start">Start Time</label>
+                        <select id="slot-start" required>
+                            <!-- Options generated by JS or static -->
+                            <option value="17:00">5:00 PM</option>
+                            <option value="18:00" selected>6:00 PM</option>
+                            <option value="19:00">7:00 PM</option>
+                            <option value="20:00">8:00 PM</option>
+                            <option value="21:00">9:00 PM</option>
+                            <option value="22:00">10:00 PM</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="slot-end">End Time</label>
+                        <select id="slot-end" required>
+                            <option value="18:00">6:00 PM</option>
+                            <option value="19:00">7:00 PM</option>
+                            <option value="20:00" selected>8:00 PM</option>
+                            <option value="21:00">9:00 PM</option>
+                            <option value="22:00">10:00 PM</option>
+                            <option value="23:00">11:00 PM</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <div>
+                        <button type="button" class="btn btn-delete" id="delete-slot-btn"
+                            style="display: none;">Delete</button>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button type="button" class="btn btn-cancel" id="cancel-slot-btn">Cancel</button>
+                        <button type="submit" class="btn btn-save" id="save-slot-btn">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Setup Modal overlay -->
+    <div class="modal-overlay active" id="setup-modal">
+        <div class="modal-content">
+            <h3 class="modal-title">Welcome to FairTime</h3>
+            <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">Let's set up your dashboard. How
+                many users are managing time?</p>
+            <form id="setup-form">
+                <div class="form-group">
+                    <label for="num-users">Number of Users (2-4)</label>
+                    <select id="num-users" required>
+                        <option value="2" selected>2 Users</option>
+                        <option value="3">3 Users</option>
+                        <option value="4">4 Users</option>
+                    </select>
+                </div>
+
+                <div id="user-names-container">
+                    <!-- Name inputs generated dynamically -->
+                </div>
+
+                <div class="form-actions" style="justify-content: flex-end;">
+                    <button type="submit" class="btn btn-save" style="width: 100%;">START DASHBOARD</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
